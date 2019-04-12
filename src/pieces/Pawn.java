@@ -15,9 +15,9 @@ public class Pawn extends ChessPiece implements ForwardMovement , DiagonalMoveme
 	@Override
 	public ArrayList<Position> getValidMoves() {
 		
-		super.validMoves.addAll(getValidForwardMoves());
-		super.validMoves.addAll(getValidDiagonalMoves());
-		return super.validMoves;
+		this.validMoves.addAll(getValidForwardMoves());
+		this.validMoves.addAll(getValidDiagonalMoves());
+		return this.validMoves;
 	}
 
 	@Override
@@ -53,39 +53,63 @@ public class Pawn extends ChessPiece implements ForwardMovement , DiagonalMoveme
 	@Override
 	public ArrayList<Position> getValidDiagonalMoves() {
 		ArrayList<Position> logicalMoves =new ArrayList<Position>();
-		Position p = new Position(super.currentPosition.getRow()+1,super.currentPosition.getColumn()-1);//left for white
-		logicalMoves.add(p);
-		Position p1 = new Position(super.currentPosition.getRow()+1,super.currentPosition.getColumn()+1);//right for white
-		logicalMoves.add(p1);
-		Position p2 = new Position(super.currentPosition.getRow()-1,super.currentPosition.getColumn()-1);//right for black
-		logicalMoves.add(p2);
-		Position p3 = new Position(super.currentPosition.getRow()-1,super.currentPosition.getColumn()+1);// left for black
-		logicalMoves.add(p3);
+		if(this.color.equals("White"))
+		{
+			if(this.currentPosition.getRow()<7&&this.currentPosition.getColumn()>0)
+			{
+				Position p = new Position(this.currentPosition.getRow()+1,this.currentPosition.getColumn()-1);//left 
+				logicalMoves.add(p);
+			}
+			if(this.currentPosition.getRow()<7&&this.currentPosition.getColumn()<7)
+			{
+				Position p1 = new Position(this.currentPosition.getRow()+1,this.currentPosition.getColumn()+1);//right
+				logicalMoves.add(p1);
+			}
+		}
+		else
+		{
+			if(this.currentPosition.getRow()>0&&this.currentPosition.getColumn()>0)
+			{
+				Position p2 = new Position(this.currentPosition.getRow()-1,this.currentPosition.getColumn()-1);//right 
+				logicalMoves.add(p2);
+			}
+			if(this.currentPosition.getRow()>0&&this.currentPosition.getColumn()<7)
+			{
+				Position p3 = new Position(this.currentPosition.getRow()-1,this.currentPosition.getColumn()+1);// left 
+				logicalMoves.add(p3);
+			}
+		}
 		return logicalMoves;
 	}
 
 	@Override
 	public ArrayList<Position> getValidForwardMoves() {
 		ArrayList<Position> logicalMoves =new ArrayList<Position>();
-		for(int i=super.currentPosition.getRow()+1;i<8;i++)//for whiteplayer 1 step
+		if(this.color.equals("White"))
 		{
-			Position p=new Position(i,super.currentPosition.getColumn());
-			logicalMoves.add(p);
+			if(this.currentPosition.getRow()<7)
+				{
+					Position p=new Position(this.currentPosition.getRow()+1,this.currentPosition.getColumn());
+					logicalMoves.add(p);
+				}
+			if(this.currentPosition.getRow()<6)
+				{
+					Position p1=new Position(this.currentPosition.getRow()+2,this.currentPosition.getColumn());
+					logicalMoves.add(p1);
+				}
 		}
-		for(int i=super.currentPosition.getRow()+2;i<7;i++)//for whiteplayer 2 step
+		else 
 		{
-			Position p1=new Position(i,super.currentPosition.getColumn());
-			logicalMoves.add(p1);
-		}
-		for(int i=super.currentPosition.getRow()-1;i>=0;i--)//for balckplayer 1 step
-		{
-			Position p2=new Position(i,super.currentPosition.getColumn());
-			logicalMoves.add(p2);
-		}
-		for(int i=super.currentPosition.getRow()-2;i>=0;i--)//for balckplayer 2 step
-		{
-			Position p3=new Position(i,super.currentPosition.getColumn());
-			logicalMoves.add(p3);
+			if(this.currentPosition.getRow()>0)
+			{
+				Position p2=new Position(this.currentPosition.getRow()-1,this.currentPosition.getColumn());
+				logicalMoves.add(p2);
+			}
+			if(this.currentPosition.getRow()>1)
+			{
+				Position p3=new Position(this.currentPosition.getRow()-2,this.currentPosition.getColumn());
+				logicalMoves.add(p3);
+			}
 		}
 		return logicalMoves;
 	}
